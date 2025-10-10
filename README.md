@@ -1,0 +1,401 @@
+# 🚀 Astro + Tailwind CSS + Ollama AI
+
+<div align="center">
+
+![Astro](https://img.shields.io/badge/Astro-FF5D01?style=for-the-badge&logo=astro&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Ollama](https://img.shields.io/badge/Ollama-000000?style=for-the-badge&logo=ollama&logoColor=white)
+
+一个现代化的 AI 聊天 Web 应用程序，集成了 Astro.js、Tailwind CSS 和 Ollama AI
+
+[在线演示](http://localhost:4321) • [快速开始](#-快速开始) • [文档](#-项目结构)
+
+</div>
+
+## ✨ 功能特性
+
+- 🚀 **Astro.js** - 现代静态网站生成器，零 JavaScript 运行时
+- 🎨 **Tailwind CSS** - 实用优先的 CSS 框架，快速构建现代 UI
+- 🤖 **Ollama AI** - 本地 AI 模型集成，支持多种开源大语言模型
+- 💬 **实时聊天** - 流畅的 AI 对话体验，支持多模型切换
+- 📱 **响应式设计** - 完美适配桌面端和移动端设备
+- ⚡ **快速开发** - 热重载开发体验，毫秒级构建速度
+- 🛡️ **类型安全** - 完整的 TypeScript 支持
+- 🎯 **零配置** - 开箱即用的开发环境
+- 🔒 **隐私优先** - 所有数据处理都在本地进行
+
+## 🚀 快速开始
+
+### 前提条件
+
+- Node.js 18+ 
+- npm 或 yarn
+- [Ollama](https://ollama.ai/) (用于本地 AI 模型)
+
+### 安装步骤
+
+1. **克隆项目**
+   ```bash
+   git clone <repository-url>
+   cd templ
+   ```
+
+2. **安装依赖**
+   ```bash
+   npm install
+   ```
+
+3. **安装并启动 Ollama**
+   ```bash
+   # 下载并安装 Ollama (访问 https://ollama.ai)
+   # 启动 Ollama 服务
+   ollama serve
+   
+   # 在新终端中下载模型
+   ollama pull llama2
+   ```
+
+4. **启动开发服务器**
+   ```bash
+   npm run dev
+   ```
+
+5. **打开浏览器**
+   
+   访问 [http://localhost:4321](http://localhost:4321) 开始使用！
+
+## 📁 项目结构
+
+```
+📦 templ/
+├── 📂 public/                     # 静态资源
+│   └── favicon.svg
+├── 📂 src/
+│   ├── 📂 components/             # Astro 组件
+│   │   └── Chat.astro            # 聊天界面组件
+│   ├── 📂 lib/                   # 工具库
+│   │   ├── config.ts             # 应用配置
+│   │   └── ollama.ts             # Ollama API 封装
+│   └── 📂 pages/                 # 页面路由
+│       ├── 📂 api/               # API 端点
+│       │   ├── chat.ts           # 聊天 API
+│       │   └── models.ts         # 模型列表 API
+│       ├── index.astro           # 首页
+│       └── chat.astro            # 聊天页面
+├── astro.config.mjs              # Astro 配置
+├── tailwind.config.mjs           # Tailwind 配置
+└── package.json                  # 项目依赖
+```
+
+## 🎯 使用说明
+
+### 开发命令
+
+| 命令 | 描述 |
+|------|------|
+| `npm run dev` | 启动开发服务器 (http://localhost:4321) |
+| `npm run build` | 构建生产版本到 `dist/` |
+| `npm run preview` | 预览构建后的网站 |
+| `npm run astro` | 运行 Astro CLI 命令 |
+
+### 功能使用
+
+1. **访问首页** - 查看项目介绍和功能概览
+2. **进入聊天** - 点击"开始 AI 聊天"按钮或访问 `/chat`
+3. **选择模型** - 在聊天界面顶部选择不同的 AI 模型
+4. **开始对话** - 输入消息并按回车或点击发送按钮
+
+### 支持的 AI 模型
+
+项目支持所有通过 Ollama 安装的模型：
+
+| 模型 | 大小 | 特点 | 下载命令 |
+|------|------|------|----------|
+| **llama2** | 3.8GB | 通用对话模型 | `ollama pull llama2` |
+| **codellama** | 3.8GB | 代码生成专家 | `ollama pull codellama` |
+| **mistral** | 4.1GB | 高效多语言模型 | `ollama pull mistral` |
+| **neural-chat** | 4.1GB | 对话优化模型 | `ollama pull neural-chat` |
+| **starling-lm** | 4.1GB | 指令跟随模型 | `ollama pull starling-lm` |
+
+> 💡 **提示**: 首次使用需要下载模型，建议从 `llama2` 开始
+
+## 📡 API 接口
+
+### `GET /api/models`
+
+获取可用的 Ollama 模型列表
+
+**响应示例:**
+```json
+{
+  "success": true,
+  "models": [
+    {
+      "name": "llama2:latest",
+      "size": 3826793677,
+      "digest": "365c0bd3c000a25d28ddbf732fe1c6add414de7275464c4e4d1c3b5fcb5d8ad1",
+      "modified_at": "2024-01-15T12:00:00Z"
+    }
+  ]
+}
+```
+
+### `POST /api/chat`
+
+发送消息到 AI 模型进行对话
+
+**请求体:**
+```json
+{
+  "message": "解释一下什么是 Astro.js",
+  "model": "llama2"
+}
+```
+
+**响应示例:**
+```json
+{
+  "success": true,
+  "data": "Astro.js 是一个现代的静态网站生成器，它采用岛屿架构（Islands Architecture）...",
+  "model": "llama2"
+}
+```
+
+**错误响应:**
+```json
+{
+  "success": false,
+  "error": "Ollama 服务不可用，请确保 Ollama 正在运行"
+}
+```
+
+## ⚙️ 配置说明
+
+### Ollama 配置
+
+在 `src/lib/config.ts` 中自定义 Ollama 设置：
+
+```typescript
+export const OLLAMA_CONFIG = {
+  HOST: 'http://localhost:11434',     // Ollama 服务器地址
+  DEFAULT_MODEL: 'llama2',            // 默认模型
+  REQUEST_TIMEOUT: 30000,             // 请求超时 (30秒)
+  
+  // 支持的模型列表
+  FALLBACK_MODELS: [
+    'llama2', 'codellama', 'mistral', 
+    'neural-chat', 'starling-lm'
+  ],
+  
+  // API 端点配置
+  ENDPOINTS: {
+    HEALTH: '/api/version',
+    MODELS: '/api/tags', 
+    CHAT: '/api/chat'
+  }
+};
+```
+
+### 环境变量
+
+创建 `.env.local` 文件进行个性化配置：
+
+```env
+# Ollama 服务器地址 (可选)
+OLLAMA_HOST=http://localhost:11434
+
+# 默认模型 (可选) 
+DEFAULT_MODEL=llama2
+
+# 请求超时时间 (可选)
+REQUEST_TIMEOUT=30000
+```
+
+### Tailwind CSS 自定义
+
+在 `tailwind.config.mjs` 中修改样式主题：
+
+```javascript
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#3B82F6',    // 自定义主色调
+        secondary: '#10B981',   // 自定义辅助色
+      }
+    },
+  },
+  plugins: [],
+}
+```
+
+## 🔧 故障排除
+
+<details>
+<summary><strong>❌ Ollama 服务连接失败</strong></summary>
+
+**症状**: 聊天界面显示"连接失败"，无法获取模型列表
+
+**解决方案**:
+1. 检查 Ollama 服务状态
+   ```bash
+   ollama serve
+   ```
+
+2. 验证服务端口 (默认 11434)
+   ```bash
+   curl http://localhost:11434/api/version
+   ```
+
+3. 检查防火墙设置，确保端口可访问
+
+4. 确认模型已下载
+   ```bash
+   ollama list
+   ```
+
+</details>
+
+<details>
+<summary><strong>🐌 模型响应缓慢</strong></summary>
+
+**可能原因和解决方案**:
+
+- **内存不足**: 确保系统有足够内存 (推荐 8GB+)
+- **模型太大**: 尝试较小模型 (`llama2:7b` vs `llama2:70b`)  
+- **CPU 负载**: 关闭其他占用 CPU 的程序
+- **磁盘 I/O**: 确保模型存储在 SSD 上
+
+**性能优化建议**:
+```bash
+# 使用量化模型 (更小但性能相近)
+ollama pull llama2:7b-q4_0
+
+# 设置并发数限制
+export OLLAMA_NUM_PARALLEL=1
+```
+
+</details>
+
+<details>
+<summary><strong>🚫 构建错误</strong></summary>
+
+**常见问题**:
+
+1. **Node.js 版本**: 确保使用 Node.js 18+
+2. **依赖冲突**: 删除 `node_modules` 和 `package-lock.json` 重新安装
+3. **TypeScript 错误**: 运行 `npm run astro check` 检查类型
+
+```bash
+# 清理并重新安装
+rm -rf node_modules package-lock.json
+npm install
+
+# 检查 Node.js 版本
+node --version  # 应该 >= 18.0.0
+```
+
+</details>
+
+<details>
+<summary><strong>🌐 端口占用</strong></summary>
+
+如果默认端口 4321 被占用:
+
+```bash
+# 使用其他端口启动
+npm run dev -- --port 3000
+
+# 或者修改 astro.config.mjs
+export default defineConfig({
+  server: { port: 3000 },
+  integrations: [tailwind()],
+});
+```
+
+</details>
+
+## 🛠️ 技术栈
+
+<table>
+  <tr>
+    <td align="center" width="100">
+      <img src="https://astro.build/assets/press/astro-icon-light.svg" width="48" height="48" alt="Astro" />
+      <br><strong>Astro</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://tailwindcss.com/_next/static/media/tailwindcss-mark.3c5441fc7a190fb1800d4a5c7f07ba4b1345a9c8.svg" width="48" height="48" alt="Tailwind" />
+      <br><strong>Tailwind</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Typescript_logo_2020.svg" width="48" height="48" alt="TypeScript" />
+      <br><strong>TypeScript</strong>
+    </td>
+    <td align="center" width="100">
+      <img src="https://ollama.ai/public/ollama.png" width="48" height="48" alt="Ollama" />
+      <br><strong>Ollama</strong>
+    </td>
+  </tr>
+</table>
+
+### 核心技术
+
+- **[Astro.js](https://astro.build/)** `^5.14.3` - 现代静态网站生成器
+- **[Tailwind CSS](https://tailwindcss.com/)** `^3.4.18` - 实用优先 CSS 框架
+- **[TypeScript](https://www.typescriptlang.org/)** - 类型安全的 JavaScript 超集
+- **[Ollama](https://ollama.ai/)** `^0.6.0` - 本地大语言模型运行时
+
+### 开发工具
+
+- **@astrojs/check** - Astro 项目类型检查
+- **@astrojs/tailwind** - Astro Tailwind CSS 集成
+- **Vite** - 快速的前端构建工具 (Astro 内置)
+
+## 📊 项目状态
+
+- ✅ 基础架构搭建完成
+- ✅ Ollama API 集成完成  
+- ✅ 聊天界面开发完成
+- ✅ 响应式设计完成
+- ✅ 错误处理完成
+- ✅ TypeScript 支持完成
+
+## 🤝 贡献指南
+
+欢迎贡献代码！请遵循以下步骤：
+
+1. **Fork** 项目
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开 **Pull Request**
+
+### 开发规范
+
+- 使用 TypeScript 编写代码
+- 遵循 ESLint 和 Prettier 规则
+- 添加适当的注释和文档
+- 确保所有测试通过
+
+## 📄 许可证
+
+本项目采用 **MIT** 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+
+## 🙏 致谢
+
+- [Astro 团队](https://astro.build/team/) - 出色的静态网站生成器
+- [Tailwind Labs](https://tailwindlabs.com/) - 优雅的 CSS 框架  
+- [Ollama 社区](https://ollama.ai/) - 让本地 AI 变得简单
+- 所有开源贡献者 ❤️
+
+---
+
+<div align="center">
+
+**[⭐ 给个星星](https://github.com/yourusername/templ)** • **[🐛 报告问题](https://github.com/yourusername/templ/issues)** • **[💡 功能建议](https://github.com/yourusername/templ/issues)**
+
+Made with ❤️ by [Your Name](https://github.com/yourusername)
+
+</div>

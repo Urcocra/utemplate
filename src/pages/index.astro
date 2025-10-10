@@ -1,0 +1,50 @@
+---
+// 这里可以添加组件脚本
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro + Tailwind CSS</title>
+  </head>
+  <body class="bg-gray-100 text-gray-900">
+    <main class="container mx-auto px-4 py-8">
+      <h1 class="text-4xl font-bold text-center text-blue-600 mb-8">
+        欢迎使用 Astro + Tailwind CSS
+      </h1>
+      <div class="max-w-2xl mx-auto">
+        <p class="text-lg text-center mb-6">
+          这是一个使用 Astro.js 和 Tailwind CSS 构建的项目。
+        </p>
+        <div class="bg-white rounded-lg shadow-lg p-6">
+          <h2 class="text-2xl font-semibold mb-4">开始使用</h2>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-center">
+              <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+              ✅ Astro.js 已安装
+            </li>
+            <li class="flex items-center">
+              <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+              ✅ Tailwind CSS 已配置
+            </li>
+            <li class="flex items-center">
+              <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+              ✅ Ollama API 已集成
+            </li>
+          </ul>
+          <div class="text-center">
+            <a 
+              href="/chat" 
+              class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            >
+              开始 AI 聊天 →
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

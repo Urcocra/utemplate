@@ -1,0 +1,47 @@
+{
+  "name": "astro-tailwind-ollama",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A modern AI chat web application built with Astro.js, Tailwind CSS, and Ollama AI",
+  "keywords": [
+    "astro",
+    "tailwindcss", 
+    "ollama",
+    "ai",
+    "chat",
+    "llm",
+    "typescript"
+  ],
+  "homepage": "https://github.com/yourusername/astro-tailwind-ollama#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/astro-tailwind-ollama.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/astro-tailwind-ollama/issues"
+  },
+  "author": {
+    "name": "Your Name",
+    "email": "your.email@example.com"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev", 
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/vite": "^4.1.14",
+    "astro": "^5.14.3",
+    "ollama": "^0.6.0",
+    "tailwindcss": "^3.4.18",
+    "typescript": "^5.9.3"
+  }
+}
