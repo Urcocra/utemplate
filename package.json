@@ -5,7 +5,7 @@
   "description": "A modern AI chat web application built with Astro.js, Tailwind CSS, and Ollama AI",
   "keywords": [
     "astro",
-    "tailwindcss", 
+    "tailwindcss",
     "ollama",
     "ai",
     "chat",
@@ -30,18 +30,31 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev", 
+    "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "server": "tsx src/server.ts",
+    "server:dev": "nodemon --exec tsx src/server.ts",
+    "server:watch": "nodemon --watch src --ext ts --exec tsx src/server.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/tailwind": "^6.0.2",
     "@tailwindcss/vite": "^4.1.14",
     "astro": "^5.14.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
     "ollama": "^0.6.0",
     "tailwindcss": "^3.4.18",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.7.2",
+    "nodemon": "^3.1.10",
+    "tsx": "^4.20.6"
   }
 }
