@@ -33,28 +33,34 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro",
-    "server": "tsx src/server.ts",
-    "server:dev": "nodemon --exec tsx src/server.ts",
-    "server:watch": "nodemon --watch src --ext ts --exec tsx src/server.ts"
+    "astro": "astro"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
+    "@astrojs/react": "^4.4.0",
     "@astrojs/tailwind": "^6.0.2",
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@supabase/auth-ui-react": "^0.4.7",
+    "@supabase/auth-ui-shared": "^0.1.8",
+    "@supabase/supabase-js": "^2.76.1",
     "@tailwindcss/vite": "^4.1.14",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "astro": "^5.14.3",
-    "cors": "^2.8.5",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0",
+    "lucide-react": "^0.546.0",
     "ollama": "^0.6.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^3.4.18",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.3",
-    "@types/node": "^24.7.2",
-    "nodemon": "^3.1.10",
-    "tsx": "^4.20.6"
+    "@types/node": "^24.7.2"
   }
 }

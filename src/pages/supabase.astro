@@ -1,0 +1,133 @@
+---
+import '@/styles/globals.css';
+import SupabaseIntegration from '@/components/SupabaseIntegration.tsx';
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Supabase 集成演示 - Astro + React + ShadcnUI</title>
+  </head>
+  <body class="min-h-screen bg-background">
+    <main class="container mx-auto px-4 py-8">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold mb-4">
+          🗄️ Supabase 集成演示
+        </h1>
+        <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+          完整的 Supabase 认证和数据库操作演示，包含用户注册、登录、配置文件管理等功能。
+        </p>
+      </div>
+
+      <!-- 功能介绍 -->
+      <div class="mb-8">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-card text-card-foreground p-4 rounded-lg border">
+            <h3 class="font-semibold mb-2">🔐 用户认证</h3>
+            <p class="text-sm text-muted-foreground">邮箱密码登录、注册和 OAuth 集成</p>
+          </div>
+          <div class="bg-card text-card-foreground p-4 rounded-lg border">
+            <h3 class="font-semibold mb-2">👤 用户配置</h3>
+            <p class="text-sm text-muted-foreground">个人信息管理和配置文件操作</p>
+          </div>
+          <div class="bg-card text-card-foreground p-4 rounded-lg border">
+            <h3 class="font-semibold mb-2">💾 实时数据</h3>
+            <p class="text-sm text-muted-foreground">实时数据同步和状态管理</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Supabase 演示组件容器 -->
+      <div id="supabase-demo" class="max-w-6xl mx-auto">
+        <SupabaseIntegration client:load />
+      </div>
+
+      <!-- 说明文档 -->
+      <div class="max-w-4xl mx-auto mt-12">
+        <div class="bg-card text-card-foreground p-6 rounded-lg border">
+          <h3 class="text-xl font-semibold mb-4">🚀 Supabase 功能说明</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div>
+              <h4 class="font-medium mb-2">认证功能</h4>
+              <ul class="space-y-1 text-muted-foreground">
+                <li>• 邮箱密码注册/登录</li>
+                <li>• OAuth 社交登录 (Google, GitHub)</li>
+                <li>• 会话管理和自动登出</li>
+                <li>• 邮箱验证和密码重置</li>
+                <li>• 实时认证状态监听</li>
+              </ul>
+              
+              <h4 class="font-medium mb-2 mt-4">数据库操作</h4>
+              <ul class="space-y-1 text-muted-foreground">
+                <li>• 用户配置文件 CRUD 操作</li>
+                <li>• 行级安全 (RLS) 策略</li>
+                <li>• 实时数据订阅</li>
+                <li>• 类型安全的 API 调用</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 class="font-medium mb-2">技术特性</h4>
+              <ul class="space-y-1 text-muted-foreground">
+                <li>• TypeScript 完整类型支持</li>
+                <li>• React 状态管理集成</li>
+                <li>• 环境变量配置</li>
+                <li>• 错误处理和用户反馈</li>
+                <li>• 响应式 UI 设计</li>
+              </ul>
+              
+              <h4 class="font-medium mb-2 mt-4">开发工具</h4>
+              <ul class="space-y-1 text-muted-foreground">
+                <li>• Supabase Dashboard</li>
+                <li>• 实时日志和调试</li>
+                <li>• SQL 查询编辑器</li>
+                <li>• 数据库迁移管理</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded border border-yellow-200 dark:border-yellow-800">
+            <h4 class="font-medium text-yellow-800 dark:text-yellow-200 mb-2">⚠️ 配置提醒</h4>
+            <p class="text-sm text-yellow-700 dark:text-yellow-300">
+              当前使用的是演示配置。要连接到真实的 Supabase 项目，请：
+            </p>
+            <ol class="text-sm text-yellow-700 dark:text-yellow-300 mt-2 space-y-1">
+              <li>1. 在 <a href="https://supabase.com" target="_blank" class="underline">supabase.com</a> 创建项目</li>
+              <li>2. 更新 <code>.env</code> 文件中的 URL 和 API 密钥</li>
+              <li>3. 在 Supabase 中创建 profiles 表</li>
+              <li>4. 配置认证提供商 (Google, GitHub 等)</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- 导航链接 -->
+      <div class="text-center mt-8">
+        <div class="space-x-4">
+          <a 
+            href="/demo" 
+            class="inline-flex items-center px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
+            React 演示
+          </a>
+          <a 
+            href="/" 
+            class="inline-flex items-center px-4 py-2 rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+          >
+            返回首页
+          </a>
+          <a 
+            href="/chat" 
+            class="inline-flex items-center px-4 py-2 rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+          >
+            AI 聊天
+          </a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

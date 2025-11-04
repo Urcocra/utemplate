@@ -1,0 +1,24 @@
+---
+import '@/styles/globals.css';
+import ExampleComponent from '@/components/ExampleComponent.tsx';
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>React + ShadcnUI 测试</title>
+  </head>
+  <body>
+    <main class="container mx-auto px-4 py-8">
+      <h1 class="text-4xl font-bold text-center mb-8">
+        React + ShadcnUI 集成测试
+      </h1>
+      <div class="max-w-2xl mx-auto">
+        <ExampleComponent client:load title="测试 ShadcnUI 组件" />
+      </div>
+    </main>
+  </body>
+</html>

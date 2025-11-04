@@ -1,0 +1,105 @@
+---
+import '@/styles/globals.css';
+import ExampleComponent from '@/components/ExampleComponent.tsx';
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>ShadcnUI 演示 - Astro + React</title>
+  </head>
+  <body class="min-h-screen bg-background">
+    <main class="container mx-auto px-4 py-8">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold mb-4">
+          🚀 Astro + React + ShadcnUI
+        </h1>
+        <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+          这是一个完整的技术栈演示，展示了 Astro.js (SSG 模式) + React + ShadcnUI + Tailwind CSS 的集成效果。
+        </p>
+      </div>
+
+      <!-- 技术栈介绍 -->
+      <div class="mb-8">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-card text-card-foreground p-4 rounded-lg border">
+            <h3 class="font-semibold mb-2">🏗️ Astro.js</h3>
+            <p class="text-sm text-muted-foreground">静态站点生成器，支持多框架</p>
+          </div>
+          <div class="bg-card text-card-foreground p-4 rounded-lg border">
+            <h3 class="font-semibold mb-2">⚛️ React</h3>
+            <p class="text-sm text-muted-foreground">用于构建交互式组件</p>
+          </div>
+          <div class="bg-card text-card-foreground p-4 rounded-lg border">
+            <h3 class="font-semibold mb-2">🎨 ShadcnUI</h3>
+            <p class="text-sm text-muted-foreground">现代化的 UI 组件库</p>
+          </div>
+          <div class="bg-card text-card-foreground p-4 rounded-lg border">
+            <h3 class="font-semibold mb-2">🎭 Tailwind</h3>
+            <p class="text-sm text-muted-foreground">实用优先的 CSS 框架</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- React 组件演示 -->
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold mb-2">交互式组件演示</h2>
+          <p class="text-muted-foreground">
+            下面的组件是使用 React + ShadcnUI 构建的，支持完整的状态管理和交互
+          </p>
+        </div>
+        
+        <ExampleComponent client:load title="ShadcnUI 完整功能演示" />
+      </div>
+
+      <!-- 功能说明 -->
+      <div class="max-w-4xl mx-auto mt-12">
+        <div class="bg-card text-card-foreground p-6 rounded-lg border">
+          <h3 class="text-xl font-semibold mb-4">✨ 已集成的功能</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <h4 class="font-medium mb-2">框架和构建</h4>
+              <ul class="space-y-1 text-muted-foreground">
+                <li>• Astro.js SSG 模式</li>
+                <li>• React 18 集成</li>
+                <li>• TypeScript 支持</li>
+                <li>• 路径别名 (@/*)</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-medium mb-2">UI 和样式</h4>
+              <ul class="space-y-1 text-muted-foreground">
+                <li>• ShadcnUI 组件库</li>
+                <li>• Tailwind CSS</li>
+                <li>• 深色/浅色主题</li>
+                <li>• 响应式设计</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 导航链接 -->
+      <div class="text-center mt-8">
+        <div class="space-x-4">
+          <a 
+            href="/" 
+            class="inline-flex items-center px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
+            返回首页
+          </a>
+          <a 
+            href="/chat" 
+            class="inline-flex items-center px-4 py-2 rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+          >
+            AI 聊天
+          </a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

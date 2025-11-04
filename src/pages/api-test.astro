@@ -1,0 +1,158 @@
+---
+// API 测试页面
+---
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 测试页面</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl font-bold text-center mb-8">HTTP API 测试页面</h1>
+        
+        <!-- 用户 API 测试 -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">用户 API 测试</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onclick="getUsers()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    获取所有用户
+                </button>
+                <button onclick="getUserById()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                    获取用户 (ID: 1)
+                </button>
+                <button onclick="createUser()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+                    创建新用户
+                </button>
+                <button onclick="updateUser()" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
+                    更新用户 (ID: 1)
+                </button>
+            </div>
+        </div>
+
+        <!-- 产品 API 测试 -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">产品 API 测试</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onclick="getProducts()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    获取所有产品
+                </button>
+                <button onclick="getProductsWithFilter()" class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">
+                    获取手机产品 (筛选)
+                </button>
+                <button onclick="createProduct()" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+                    创建新产品
+                </button>
+                <button onclick="batchUpdateProducts()" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
+                    批量更新产品
+                </button>
+            </div>
+        </div>
+
+        <!-- 响应显示区域 -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-4">API 响应</h2>
+            <pre id="response" class="bg-gray-800 text-green-400 p-4 rounded overflow-auto max-h-96 text-sm">
+点击上面的按钮来测试 API...
+            </pre>
+        </div>
+    </div>
+
+    <script>
+        // 显示响应的工具函数
+        function displayResponse(data) {
+            document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+        }
+
+        // API 调用函数
+        async function apiCall(url, options = {}) {
+            try {
+                const response = await fetch(url, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+                
+                const data = await response.json();
+                displayResponse({
+                    status: response.status,
+                    statusText: response.statusText,
+                    data: data
+                });
+            } catch (error) {
+                displayResponse({
+                    error: error.message
+                });
+            }
+        }
+
+        // 用户 API 测试函数
+        async function getUsers() {
+            await apiCall('/api/users');
+        }
+
+        async function getUserById() {
+            await apiCall('/api/users/1');
+        }
+
+        async function createUser() {
+            await apiCall('/api/users', {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: '王五',
+                    email: 'wangwu@example.com'
+                })
+            });
+        }
+
+        async function updateUser() {
+            await apiCall('/api/users/1', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    name: '张三（已更新）',
+                    email: 'zhangsan_updated@example.com'
+                })
+            });
+        }
+
+        // 产品 API 测试函数
+        async function getProducts() {
+            await apiCall('/api/products');
+        }
+
+        async function getProductsWithFilter() {
+            await apiCall('/api/products?category=手机&page=1&limit=5');
+        }
+
+        async function createProduct() {
+            await apiCall('/api/products', {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: '测试产品',
+                    price: 299,
+                    category: '测试',
+                    stock: 100
+                })
+            });
+        }
+
+        async function batchUpdateProducts() {
+            await apiCall('/api/products', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    updates: [
+                        { id: 1, stock: 15 },
+                        { id: 2, price: 1899 }
+                    ]
+                })
+            });
+        }
+    </script>
+</body>
+</html>

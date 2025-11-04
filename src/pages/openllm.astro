@@ -1,0 +1,356 @@
+---
+// OpenLLM 演示页面
+import { Card } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenLLM 集成演示</title>
+  <style>
+    .message-container {
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    .message {
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border-radius: 0.5rem;
+    }
+    .user-message {
+      background-color: #e3f2fd;
+      margin-left: 2rem;
+    }
+    .assistant-message {
+      background-color: #f5f5f5;
+      margin-right: 2rem;
+    }
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(0,0,0,.3);
+      border-radius: 50%;
+      border-top-color: #000;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .status-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+    .status-healthy {
+      background-color: #4caf50;
+    }
+    .status-unhealthy {
+      background-color: #f44336;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-4xl font-bold mb-2 text-center">OpenLLM 集成演示</h1>
+    <p class="text-gray-600 mb-8 text-center">使用 OpenLLM 提供的大型语言模型服务</p>
+
+    <!-- 服务状态卡片 -->
+    <Card className="p-6 mb-6">
+      <h2 class="text-2xl font-semibold mb-4">服务状态</h2>
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <span id="health-indicator" class="status-indicator status-unhealthy"></span>
+            <span class="font-medium">OpenLLM 服务</span>
+          </div>
+          <span id="health-status" class="text-gray-600">检查中...</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="font-medium">可用模型数量</span>
+          <span id="model-count" class="text-gray-600">-</span>
+        </div>
+        <Button id="refresh-status" className="w-full mt-4">刷新状态</Button>
+      </div>
+    </Card>
+
+    <!-- 模型选择卡片 -->
+    <Card className="p-6 mb-6">
+      <h2 class="text-2xl font-semibold mb-4">模型配置</h2>
+      <div class="space-y-4">
+        <div>
+          <Label htmlFor="model-select">选择模型</Label>
+          <select id="model-select" class="w-full mt-1 p-2 border rounded-md">
+            <option value="facebook/opt-1.3b">facebook/opt-1.3b</option>
+            <option value="facebook/opt-2.7b">facebook/opt-2.7b</option>
+            <option value="meta-llama/Llama-2-7b-hf">meta-llama/Llama-2-7b-hf</option>
+            <option value="mistralai/Mistral-7B-v0.1">mistralai/Mistral-7B-v0.1</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="temperature">Temperature</Label>
+            <Input id="temperature" type="number" step="0.1" min="0" max="2" value="0.7" />
+          </div>
+          <div>
+            <Label htmlFor="max-tokens">Max Tokens</Label>
+            <Input id="max-tokens" type="number" step="1" min="1" max="4096" value="1024" />
+          </div>
+        </div>
+      </div>
+    </Card>
+
+    <!-- 聊天卡片 -->
+    <Card className="p-6">
+      <h2 class="text-2xl font-semibold mb-4">聊天对话</h2>
+      
+      <div id="messages" class="message-container mb-4 p-4 border rounded-lg bg-white">
+        <p class="text-gray-400 text-center">开始对话...</p>
+      </div>
+
+      <div class="flex gap-2">
+        <Input 
+          id="message-input" 
+          type="text" 
+          placeholder="输入您的消息..." 
+          className="flex-1"
+        />
+        <Button id="send-button">发送</Button>
+      </div>
+
+      <div class="mt-4 flex gap-2">
+        <Button id="clear-button" variant="outline" className="flex-1">清空对话</Button>
+        <Button id="stream-toggle" variant="outline" className="flex-1">
+          流式模式: <span id="stream-status">关闭</span>
+        </Button>
+      </div>
+    </Card>
+
+    <!-- API 使用说明 -->
+    <Card className="p-6 mt-6">
+      <h2 class="text-2xl font-semibold mb-4">API 端点说明</h2>
+      <div class="space-y-2 text-sm">
+        <div class="p-3 bg-gray-50 rounded">
+          <code>POST /api/openllm-chat</code> - 聊天对话
+        </div>
+        <div class="p-3 bg-gray-50 rounded">
+          <code>POST /api/openllm-generate</code> - 文本生成
+        </div>
+        <div class="p-3 bg-gray-50 rounded">
+          <code>GET /api/openllm-models</code> - 获取模型列表
+        </div>
+        <div class="p-3 bg-gray-50 rounded">
+          <code>GET /api/openllm-health</code> - 健康检查
+        </div>
+      </div>
+    </Card>
+  </div>
+
+  <script is:inline>
+    // 状态管理
+    let messages = [];
+    let isStreaming = false;
+
+    // 检查服务健康状态
+    async function checkHealth() {
+      try {
+        const response = await fetch('/api/openllm-health');
+        const data = await response.json();
+        
+        const indicator = document.getElementById('health-indicator');
+        const status = document.getElementById('health-status');
+        
+        if (data.healthy) {
+          indicator.className = 'status-indicator status-healthy';
+          status.textContent = '正常运行';
+        } else {
+          indicator.className = 'status-indicator status-unhealthy';
+          status.textContent = '服务不可用';
+        }
+      } catch (error) {
+        console.error('健康检查失败:', error);
+        document.getElementById('health-status').textContent = '检查失败';
+      }
+    }
+
+    // 获取模型列表
+    async function getModels() {
+      try {
+        const response = await fetch('/api/openllm-models');
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+          document.getElementById('model-count').textContent = data.count || 0;
+          
+          // 更新模型选择器
+          const select = document.getElementById('model-select');
+          select.innerHTML = '';
+          data.data.forEach(model => {
+            const option = document.createElement('option');
+            option.value = model.id;
+            option.textContent = model.id;
+            select.appendChild(option);
+          });
+        }
+      } catch (error) {
+        console.error('获取模型列表失败:', error);
+        document.getElementById('model-count').textContent = '0';
+      }
+    }
+
+    // 添加消息到界面
+    function addMessage(role, content) {
+      const container = document.getElementById('messages');
+      
+      // 首次添加消息时清空占位文本
+      if (container.children.length === 1 && container.children[0].classList.contains('text-gray-400')) {
+        container.innerHTML = '';
+      }
+
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${role === 'user' ? 'user-message' : 'assistant-message'}`;
+      messageDiv.innerHTML = `<strong>${role === 'user' ? '用户' : 'AI'}:</strong> ${content}`;
+      container.appendChild(messageDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // 发送消息
+    async function sendMessage() {
+      const input = document.getElementById('message-input');
+      const message = input.value.trim();
+      
+      if (!message) return;
+
+      const model = document.getElementById('model-select').value;
+      const temperature = parseFloat(document.getElementById('temperature').value);
+      const maxTokens = parseInt(document.getElementById('max-tokens').value);
+
+      addMessage('user', message);
+      input.value = '';
+
+      // 显示加载指示器
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'message assistant-message';
+      loadingDiv.innerHTML = '<div class="loading"></div> 思考中...';
+      loadingDiv.id = 'loading-message';
+      document.getElementById('messages').appendChild(loadingDiv);
+
+      try {
+        const response = await fetch('/api/openllm-chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message,
+            model,
+            stream: isStreaming,
+            options: {
+              temperature,
+              max_tokens: maxTokens,
+            }
+          })
+        });
+
+        // 移除加载指示器
+        loadingDiv.remove();
+
+        if (isStreaming && response.body) {
+          // 处理流式响应
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+          let assistantMessage = '';
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value);
+            const lines = chunk.split('\n');
+            
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                const jsonStr = line.slice(6);
+                if (jsonStr !== '[DONE]') {
+                  try {
+                    const data = JSON.parse(jsonStr);
+                    const content = data.choices?.[0]?.delta?.content || '';
+                    assistantMessage += content;
+                    
+                    // 更新或创建助手消息
+                    let msgDiv = document.getElementById('stream-message');
+                    if (!msgDiv) {
+                      msgDiv = document.createElement('div');
+                      msgDiv.id = 'stream-message';
+                      msgDiv.className = 'message assistant-message';
+                      document.getElementById('messages').appendChild(msgDiv);
+                    }
+                    msgDiv.innerHTML = `<strong>AI:</strong> ${assistantMessage}`;
+                  } catch (e) {
+                    console.error('解析流数据失败:', e);
+                  }
+                }
+              }
+            }
+          }
+
+          // 清除临时 ID
+          const msgDiv = document.getElementById('stream-message');
+          if (msgDiv) msgDiv.removeAttribute('id');
+        } else {
+          // 处理普通响应
+          const data = await response.json();
+          
+          if (data.success) {
+            addMessage('assistant', data.data);
+          } else {
+            addMessage('assistant', `错误: ${data.error}`);
+          }
+        }
+      } catch (error) {
+        loadingDiv.remove();
+        console.error('发送消息失败:', error);
+        addMessage('assistant', `错误: ${error.message}`);
+      }
+    }
+
+    // 清空对话
+    function clearMessages() {
+      const container = document.getElementById('messages');
+      container.innerHTML = '<p class="text-gray-400 text-center">开始对话...</p>';
+      messages = [];
+    }
+
+    // 切换流式模式
+    function toggleStreaming() {
+      isStreaming = !isStreaming;
+      document.getElementById('stream-status').textContent = isStreaming ? '开启' : '关闭';
+    }
+
+    // 事件监听
+    document.getElementById('refresh-status').addEventListener('click', () => {
+      checkHealth();
+      getModels();
+    });
+
+    document.getElementById('send-button').addEventListener('click', sendMessage);
+    document.getElementById('message-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    document.getElementById('clear-button').addEventListener('click', clearMessages);
+    document.getElementById('stream-toggle').addEventListener('click', toggleStreaming);
+
+    // 页面加载时检查状态
+    window.addEventListener('load', () => {
+      checkHealth();
+      getModels();
+    });
+  </script>
+</body>
+</html>

@@ -18,9 +18,10 @@
 - 🚀 **Astro.js** - 现代静态网站生成器，零 JavaScript 运行时
 - 🎨 **Tailwind CSS** - 实用优先的 CSS 框架，快速构建现代 UI
 - 🤖 **Ollama AI** - 本地 AI 模型集成，支持多种开源大语言模型
-- 💬 **实时聊天** - 流畅的 AI 对话体验，支持多模型切换
-- � **Express.js API** - 独立的 RESTful API 服务器，支持流式响应
-- �📱 **响应式设计** - 完美适配桌面端和移动端设备
+- � **OpenLLM** - 生产级 LLM 部署平台，兼容 OpenAI API
+- �💬 **实时聊天** - 流畅的 AI 对话体验，支持多模型切换
+- 🔄 **Express.js API** - 独立的 RESTful API 服务器，支持流式响应
+- 📱 **响应式设计** - 完美适配桌面端和移动端设备
 - ⚡ **快速开发** - 热重载开发体验，毫秒级构建速度
 - 🛡️ **类型安全** - 完整的 TypeScript 支持
 - 🎯 **零配置** - 开箱即用的开发环境
@@ -456,6 +457,7 @@ export default defineConfig({
 - **[Tailwind CSS](https://tailwindcss.com/)** `^3.4.18` - 实用优先 CSS 框架
 - **[TypeScript](https://www.typescriptlang.org/)** - 类型安全的 JavaScript 超集
 - **[Ollama](https://ollama.ai/)** `^0.6.0` - 本地大语言模型运行时
+- **[OpenLLM](https://github.com/bentoml/OpenLLM)** - 生产级 LLM 部署平台
 
 ### 开发工具
 
@@ -463,14 +465,51 @@ export default defineConfig({
 - **@astrojs/tailwind** - Astro Tailwind CSS 集成
 - **Vite** - 快速的前端构建工具 (Astro 内置)
 
+## 🤖 AI 集成
+
+本项目集成了两个 AI 平台：
+
+### Ollama（本地开发）
+- **用途**: 本地开发和测试
+- **优势**: 易于安装，快速启动
+- **文档**: 查看项目文档了解详情
+
+### OpenLLM（生产部署）
+- **用途**: 生产环境部署
+- **优势**: 兼容 OpenAI API，支持更多模型
+- **文档**: [OPENLLM_INTEGRATION.md](./OPENLLM_INTEGRATION.md)
+- **演示页面**: http://localhost:4321/openllm
+
+#### OpenLLM 快速开始
+
+```bash
+# 使用 Docker 启动 OpenLLM 服务
+docker run -p 3000:3000 ghcr.io/bentoml/openllm start facebook/opt-1.3b
+
+# 或使用 Python
+pip install openllm
+openllm start facebook/opt-1.3b --port 3000
+```
+
+#### OpenLLM API 端点
+
+- `POST /api/openllm-chat` - 聊天对话
+- `POST /api/openllm-generate` - 文本生成
+- `GET /api/openllm-models` - 获取模型列表
+- `GET /api/openllm-health` - 健康检查
+
+详细使用说明请参考 [OPENLLM_INTEGRATION.md](./OPENLLM_INTEGRATION.md)
+
 ## 📊 项目状态
 
 - ✅ 基础架构搭建完成
 - ✅ Ollama API 集成完成  
+- ✅ OpenLLM API 集成完成
 - ✅ 聊天界面开发完成
 - ✅ 响应式设计完成
 - ✅ 错误处理完成
 - ✅ TypeScript 支持完成
+- ✅ 流式响应支持完成
 
 ## 🤝 贡献指南
 
